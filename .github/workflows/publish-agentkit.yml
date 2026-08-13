@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: "agentkit-runtime-r-yesrpbk740gyfmi826z7"
+  group: "agentkit-runtime-r-yesrq11fy8g2eewx68cd"
   cancel-in-progress: true
 
 jobs:
@@ -25,8 +25,8 @@ jobs:
       VOLCENGINE_ACCESS_KEY: ${{ secrets.VOLCENGINE_ACCESS_KEY }}
       VOLCENGINE_SECRET_KEY: ${{ secrets.VOLCENGINE_SECRET_KEY }}
       VOLCENGINE_SESSION_TOKEN: ${{ secrets.VOLCENGINE_SESSION_TOKEN }}
-      AGENTKIT_RUNTIME_NAME: "kch_cicd_test-rpsuh1bj"
-      AGENTKIT_RUNTIME_ID: "r-yesrpbk740gyfmi826z7"
+      AGENTKIT_RUNTIME_NAME: "agent_cicd_kch-hk4dapbf"
+      AGENTKIT_RUNTIME_ID: "r-yesrq11fy8g2eewx68cd"
       AGENTKIT_REGION: "cn-beijing"
     steps:
       - uses: actions/checkout@v4
