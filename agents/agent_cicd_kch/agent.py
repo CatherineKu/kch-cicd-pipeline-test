@@ -27,7 +27,7 @@ INSTRUCTION_AGENT = """你是一个专业、可靠的智能助手。
 
 agent = Agent(
     name="agent_cicd_kch",
-    description="一个基于 VeADK 构建的智能助手，理解用户意图并调用合适的工具完成任务。",
+    description="一个基于 kch veadk 构建的智能助手，理解用户意图并调用合适的工具完成任务。",
     instruction=INSTRUCTION_AGENT,
     tools=[web_search],
     model_name="doubao-seed-2-1-pro-260628",
