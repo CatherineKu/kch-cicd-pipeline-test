@@ -1,4 +1,4 @@
-# kch_cicd_test_sync
+# kch_cicd_test_new
 
 一个基于 VeADK 构建的智能助手，理解用户意图并调用合适的工具完成任务。
 

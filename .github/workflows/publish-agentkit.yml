@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: "agentkit-runtime-r-yet98bcuf45gy9k9aghr"
+  group: "agentkit-runtime-r-yet9aogf0g5gy9k9djvq"
   cancel-in-progress: true
 
 jobs:
@@ -21,12 +21,17 @@ jobs:
       run:
         working-directory: "."
     env:
-      AGENTKIT_CLOUD_PROVIDER: volcengine
-      VOLCENGINE_ACCESS_KEY: ${{ secrets.VOLCENGINE_ACCESS_KEY }}
-      VOLCENGINE_SECRET_KEY: ${{ secrets.VOLCENGINE_SECRET_KEY }}
-      VOLCENGINE_SESSION_TOKEN: ${{ secrets.VOLCENGINE_SESSION_TOKEN }}
-      AGENTKIT_RUNTIME_NAME: "kch_cicd_test_sync"
-      AGENTKIT_RUNTIME_ID: "r-yet98bcuf45gy9k9aghr"
+      AGENTKIT_CLOUD_PROVIDER: "byteplus"
+      CLOUD_PROVIDER: "byteplus"
+      BYTEPLUS_ACCESS_KEY: ${{ secrets.BYTEPLUS_ACCESS_KEY }}
+      BYTEPLUS_SECRET_KEY: ${{ secrets.BYTEPLUS_SECRET_KEY }}
+      BYTEPLUS_SESSION_TOKEN: ${{ secrets.BYTEPLUS_SESSION_TOKEN }}
+      VOLCENGINE_ACCESS_KEY: ${{ secrets.BYTEPLUS_ACCESS_KEY }}
+      VOLCENGINE_SECRET_KEY: ${{ secrets.BYTEPLUS_SECRET_KEY }}
+      VOLCENGINE_SESSION_TOKEN: ${{ secrets.BYTEPLUS_SESSION_TOKEN }}
+      BYTEPLUS_REGION: "ap-southeast-1"
+      AGENTKIT_RUNTIME_NAME: "kch_cicd_test_new"
+      AGENTKIT_RUNTIME_ID: "r-yet9aogf0g5gy9k9djvq"
       AGENTKIT_REGION: "ap-southeast-1"
     steps:
       - uses: actions/checkout@v4
@@ -51,10 +56,15 @@ jobs:
           from agentkit.toolkit import sdk
           from agentkit.toolkit.models import PreflightMode
 
+          credential_prefix = (
+              "BYTEPLUS"
+              if os.environ["AGENTKIT_CLOUD_PROVIDER"] == "byteplus"
+              else "VOLCENGINE"
+          )
           runtime_client = AgentkitRuntimeClient(
-              access_key=os.environ["VOLCENGINE_ACCESS_KEY"],
-              secret_key=os.environ["VOLCENGINE_SECRET_KEY"],
-              session_token=os.environ.get("VOLCENGINE_SESSION_TOKEN", ""),
+              access_key=os.environ[f"{credential_prefix}_ACCESS_KEY"],
+              secret_key=os.environ[f"{credential_prefix}_SECRET_KEY"],
+              session_token=os.environ.get(f"{credential_prefix}_SESSION_TOKEN", ""),
               region=os.environ["AGENTKIT_REGION"],
           )
           runtime = runtime_client.get_runtime(
@@ -83,6 +93,11 @@ jobs:
                       "runtime_name": runtime_name,
                       "runtime_role_name": runtime_role_name,
                       "python_version": "3.12",
+                      "runtime_envs": {
+                          "CLOUD_PROVIDER": os.environ["CLOUD_PROVIDER"],
+                          "AGENTKIT_CLOUD_PROVIDER": os.environ["AGENTKIT_CLOUD_PROVIDER"],
+                          "DATABASE_VIKING_REGION": "cn-hongkong",
+                      },
                   }
               },
           }
